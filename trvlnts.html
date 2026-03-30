@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 · Trvl Nts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 全局赛博朋克背景 */
+        body {
+            background: linear-gradient(135deg, #0a0a1a, #121230);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 全息网格 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(50, 20, 80, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(50, 20, 80, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.4;
+            z-index: -2;
+        }
+
+        /* 霓虹光晕 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,0,140,0.15) 0%, transparent 60%);
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,0,140,0.3);
+            z-index: 999;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: #ff008c;
+            text-shadow: 0 0 10px #ff008c, 0 0 20px #ff008c;
+            animation: neonFlicker 3s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: #00f0ff;
+            text-decoration: none;
+            font-size: 16px;
+            text-shadow: 0 0 8px #00f0ff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            text-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff;
+        }
+
+        /* ====================== CORE 核心滚动渐隐渐现 ====================== */
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            opacity: 1;
+            transition: opacity 0.8s ease-out;
+        }
+
+        /* 滚动时自动渐隐 */
+        .section.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 封面区域 */
+        .hero {
+            z-index: 10;
+        }
+
+        .hero-title {
+            font-size: 60px;
+            color: #ff008c;
+            text-shadow: 0 0 15px #ff008c, 0 0 30px #ff008c;
+            margin-bottom: 20px;
+        }
+
+        .hero-sub {
+            font-size: 22px;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+        }
+
+        .hero-line {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff008c, #00f0ff, transparent);
+            margin: 30px 0;
+        }
+
+        /* 旅途记录 */
+        .journal {
+            z-index: 9;
+            padding: 0 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #00f0ff;
+            margin-bottom: 40px;
+            text-shadow: 0 0 12px #00f0ff;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(18, 18, 48, 0.7);
+            border: 1px solid rgba(255,0,140,0.4);
+            border-radius: 10px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            text-align: left;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            color: #ff008c;
+            margin-bottom: 12px;
+            text-shadow: 0 0 8px #ff008c;
+        }
+
+        .card p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .card .date {
+            color: #00f0ff;
+            font-size: 14px;
+            text-shadow: 0 0 5px #00f0ff;
+        }
+
+        /* 打卡地点 */
+        .locations {
+            z-index: 8;
+            padding: 0 30px;
+        }
+
+        .location-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .location-tag {
+            padding: 15px 30px;
+            background: rgba(25,25,60,0.6);
+            border: 1px solid #00f0ff;
+            border-radius: 30px;
+            color: #00f0ff;
+            font-size: 18px;
+            text-shadow: 0 0 6px #00f0ff;
+        }
+
+        /* 动画 */
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 22%, 24%, 55% { opacity: 0.4; }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 36px; }
+            .navbar { padding: 15px 20px; }
+            .nav-links { gap: 20px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 导航 -->
+    <div class="navbar">
+        <div class="logo">2026 TRAVEL</div>
+        <div class="nav-links">
+            <a href="#hero">首页</a>
+            <a href="#journal">日志</a>
+            <a href="#locations">打卡</a>
+        </div>
+    </div>
+
+    <!-- 封面：滚动会渐隐 -->
+    <section class="section hero" id="hero">
+        <h1 class="hero-title">旅行日志</h1>
+        <div class="hero-line"></div>
+        <p class="hero-sub">Travel Notebook</p>
+    </section>
+
+    <!-- 旅途记录：封面消失后它出现，再滑它消失 -->
+    <section class="section journal" id="journal">
+        <h2 class="section-title">Records</h2>
+        <div class="card-container">
+            <div class="card">
+                <h3>故宫</h3>
+                <a href="https://ticket.dpm.org.cn/" target="_blank" rel="noopener noreferrer"> 每天看一看，别忘记订票</a>
+                <p class="date">2026-04-17/18</p>
+            </div>
+            <div class="card">
+                <h3>天安门升旗</h3>
+                <p>应该要走有包通道：5点钟到第三排，个人感觉，四点半到应该还不迟</p>
+                <p class="date">2026-04-17/18</p>
+            </div>
+            <div class="card">
+                <h3>夜生活</h3>
+                <p>TBA</p>
+                <p class="date">2026-04-17/18</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 打卡地点：上一部分消失后它出现 -->
+    <section class="section locations" id="locations">
+        <h2 class="section-title">Where have we been?</h2>
+        <div class="location-grid">
+            <div class="location-tag">待填写</div>
+            <div class="location-tag">待填写</div>
+            <div class="location-tag">待填写</div>
+            <div class="location-tag">待填写</div>
+            <div class="location-tag">待填写</div>
+            <div class="location-tag">待填写</div>
+        </div>
+    </section>
+
+    <script>
+        // ====================== 你要的滚动渐隐渐现核心代码 ======================
+        const sections = document.querySelectorAll('.section');
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + window.innerHeight / 2;
+
+            sections.forEach((section, index) => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+
+                // 离开当前区域 → 渐隐
+                if (scrollPos < top || scrollPos > top + height) {
+                    section.classList.add('hidden');
+                } 
+                // 进入当前区域 → 渐显
+                else {
+                    section.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
