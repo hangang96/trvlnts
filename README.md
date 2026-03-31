@@ -21,26 +21,18 @@
   onmouseout="this.style.backgroundColor='#0d1117'; this.style.borderColor='#30363d'"
   >
     <span>✈️</span>
-    <span>Open Travel Blog</span>
+    <span>Travel Blog</span>
     <span>🚀</span>
   </div>
 </a>
 
 ---
 
-### ✨ 关于这个博客
-记录世界角落的风景、美食与奇遇，用脚步丈量山河，用文字定格浪漫。
+### ✨ About the Blog
+Where have we been?
 
 <p align="left">
   <img src="https://img.shields.io/badge/Travel-Blog-ff6b6b?style=for-the-badge&logo=airplane&logoColor=white" alt="Travel Blog">
   <img src="https://img.shields.io/badge/Explore-World-4ecdc4?style=for-the-badge&logo=globe&logoColor=white" alt="Explore World">
   <img src="https://img.shields.io/badge/Adventure-Ahead-45b7d1?style=for-the-badge&logo=compass&logoColor=white" alt="Adventure Ahead">
 </p>
-
----
-
-### 📌 快速导航
-- 🌄 热门目的地
-- 🍜 美食探店
-- 📸 摄影合集
-- 📝 旅行攻略
