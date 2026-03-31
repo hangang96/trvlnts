@@ -1,9 +1,9 @@
-# nothing but a travel blog.
+# Ain't Nothing But a Travel Blog.
 
 ---
 
 ### 🌍 进入旅行博客
-<a href="https://你的旅行博客网址.com" target="_blank">
+<a href="https://hangang96.github.io/trvlnts/trvlnts.html" target="_blank">
   <div style="
     display: inline-flex;
     align-items: center;
